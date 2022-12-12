@@ -1,0 +1,22 @@
+{"comments" : "",
+"elements" : {
+"nodes" : [ 
+	{"data":{"id":"Nodo D2","group":1,"starred":1},"position":{"x":-875.5474269397819,"y":2049.398070728572}},
+	{"data":{"id":"Nodo D1","group":1},"position":{"x":-1131.8819736646124,"y":2103.75861875834}},
+	{"data":{"id":"Nodo D3","group":1,"starred":1},"position":{"x":554.2096796848108,"y":1890.6395559270795}},
+	{"data":{"id":"Nodo C1","group":2},"position":{"x":-807.3677539554164,"y":2214.0700922421247}},
+	{"data":{"id":"Nodo C2","group":2},"position":{"x":655.2392542566723,"y":2032.3053090191775}},
+	{"data":{"id":"Nodo B1","group":3},"position":{"x":-333.3804005310293,"y":1831.46547390649}},
+	{"data":{"id":"Nodo B2","group":3},"position":{"x":844.0055445590264,"y":2298.578843978518}},
+	{"data":{"id":"Nodo B3","group":3},"position":{"x":-496.95099960884573,"y":2423.382078275837}},
+	{"data":{"id":"Nodo A1","group":4},"position":{"x":71.78283550766653,"y":2124.546485997631}}
+],"edges" : [ 
+	{"data":{"source":"Nodo D2","target":"Nodo C1","group":1}},
+	{"data":{"source":"Nodo D1","target":"Nodo C1","group":1}},
+	{"data":{"source":"Nodo D3","target":"Nodo C2","group":1}},
+	{"data":{"source":"Nodo C1","target":"Nodo B3","group":2}},
+	{"data":{"source":"Nodo C2","target":"Nodo B2","group":2}},
+	{"data":{"source":"Nodo B1","target":"Nodo A1","group":3}},
+	{"data":{"source":"Nodo B2","target":"Nodo A1","group":3}},
+	{"data":{"source":"Nodo B3","target":"Nodo A1","group":3}}
+]}} 

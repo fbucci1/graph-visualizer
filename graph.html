@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html, body { 
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background-color: #e0e0e0; 
+  font-size: 9px;
+  height: 20px;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+#comments {
+	font-size: 9px;
+	width: 900px;
+}
+
+#cy {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  right: 0;
+  bottom: 0;
+  background: #fcfcfc;
+}
+</style>
+</head>
+<body>
+  <script src="cytoscape.min.js"></script>
+  <script src="fetch.umd.js"></script>
+  <button onclick="exportToJSON()">Download data</button> Comments:<input type="text" id="comments" value="">
+  <div id="cy"></div>
+</body>
+</html>
+<script>
+
+  var toJson = function(obj){ return obj.json(); };
+  var toText = function(obj){ return obj.text(); };
+
+  // get exported json from cytoscape desktop
+  var graphP = fetch('graph.json?'+new Date().getTime()).then(toJson);
+
+  // also get style
+  var styleP = fetch('graph.cycss?'+new Date().getTime()).then(toText);
+
+  // when both graph export json and style loaded, init cy
+  Promise.all([ graphP, styleP ]).then(initCy);
+
+  function initCy( then ){
+    var expJson = then[0];
+    var styleJson = then[1];
+    var elements = expJson.elements;
+    document.getElementById('comments').value = expJson.comments;
+	
+    window.cy = cytoscape({
+      container: document.getElementById('cy'),
+      layout: { name: "preset" }, //cose preset
+      style: styleJson,
+      elements: elements,
+      motionBlur: true,
+      selectionType: 'single',
+      boxSelectionEnabled: false
+    });
+
+  }
+  
+  function exportToJSON(){
+    var oldo = cy.json();
+	//
+	var buffer= "{\"comments\" : "+JSON.stringify(document.getElementById('comments').value)+",\n";
+	buffer+= "\"elements\" : {\n";
+	buffer+= "\"nodes\" : [ \n";
+	for(let i = 0; i < oldo.elements.nodes.length; i++) {
+		let obj = oldo.elements.nodes[i];
+		buffer+="\t{\"data\":"+JSON.stringify(obj.data)+",\"position\":"+JSON.stringify(obj.position)+"}"+(i<oldo.elements.nodes.length-1?",":"")+"\n";
+	}
+	buffer+= "],\"edges\" : [ \n";
+	for(let i = 0; i < oldo.elements.edges.length; i++) {
+		let obj = oldo.elements.edges[i];
+		delete obj.data.id;
+		buffer+="\t{\"data\":"+JSON.stringify(obj.data)+"}"+(i<oldo.elements.edges.length-1?",":"")+"\n";
+	}
+	buffer+="]}} \n";
+    console.log(buffer);
+	//
+	var m = new Date();
+	var dateString = m.getUTCFullYear() +"-"+ (m.getUTCMonth()+1) +"-"+ m.getUTCDate() + "-" + m.getUTCHours() + "-" + m.getUTCMinutes() + "-" + m.getUTCSeconds();
+	download("Data-"+dateString+".json", buffer);
+	//
+	initCy([JSON.parse(buffer), styleP]);
+  }
+
+	function download(filename, text) {
+		var element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		element.setAttribute('download', filename);
+		element.style.display = 'none';
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
+	}
+</script>

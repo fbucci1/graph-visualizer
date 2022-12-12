@@ -1,0 +1,50 @@
+node {
+  content: data(id);
+  width: 400px;
+  height: 40px;
+  color: white;
+  font-size: 20px;
+  z-index: 1;
+  text-valign: center;
+  text-halign: center;
+  shape: round-rectangle;
+  text-wrap: ellipsis;
+  text-max-width: 400px;
+}
+
+node[group=1]{
+  background-color: #67B7DC;
+}
+node[group=2]{
+  background-color: #6771DC;
+  height: 60px;
+  width: 320px;
+  text-max-width: 320px;
+}
+node[group=3]{
+  background-color: #A367DC;
+  height: 60px;
+  width: 300px;
+  text-max-width: 300px;
+}
+node[group=4]{
+  background-color: #DC67CE;
+  height: 80px;
+  width: 300px;
+  text-max-width: 300px;
+}
+
+node[starred=1]{
+  border-color: #257CA3;
+  border-width: 4;
+}
+
+
+edge {
+  line-color: #666;
+  width: 4px;
+  curve-style: haystack;
+  haystack-radius: 0;
+  opacity: 0.5;
+}
+
